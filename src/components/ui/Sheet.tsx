@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,9 @@ export function Sheet({
   footer?: React.ReactNode;
   size?: "sm" | "md" | "lg";
 }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -32,11 +36,11 @@ export function Sheet({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   const maxW = size === "sm" ? "sm:max-w-md" : size === "lg" ? "sm:max-w-2xl" : "sm:max-w-lg";
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-center">
       <div className="absolute inset-0 bg-ink/30 backdrop-blur-[2px] animate-fade" onClick={onClose} />
       <div
@@ -67,7 +71,8 @@ export function Sheet({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

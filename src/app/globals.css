@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   The Little Orbits — Design System
+   Clean & minimal, light theme, deep-teal accent on mostly white.
+   ========================================================================== */
+
+@theme {
+  /* Brand — deep teal scale */
+  --color-brand-50: #f1f7f6;
+  --color-brand-100: #dcecea;
+  --color-brand-200: #bbd8d4;
+  --color-brand-300: #8dbcb6;
+  --color-brand-400: #5c9a93;
+  --color-brand-500: #3d7d76;
+  --color-brand-600: #2c635d;
+  --color-brand-700: #235b57;
+  --color-brand-800: #1e4d4b;
+  --color-brand-900: #16403e;
+  --color-brand-950: #0d2b2a;
+
+  /* Neutrals tuned slightly green-grey to sit with the teal */
+  --color-ink: #16403e;
+  --color-canvas: #f5f7f6;
+  --color-surface: #ffffff;
+  --color-line: #e6ebe9;
+  --color-line-strong: #d5dddb;
+
+  --color-muted: #6b7d7a;
+  --color-body: #2c3b39;
+
+  /* Status */
+  --color-ok: #2f9e6f;
+  --color-ok-soft: #e7f5ee;
+  --color-warn: #c9822a;
+  --color-warn-soft: #fbf1e3;
+  --color-danger: #d24d4d;
+  --color-danger-soft: #fbebeb;
+  --color-info: #3a7bd5;
+  --color-info-soft: #eaf1fb;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
+  --shadow-card: 0 1px 2px rgba(16, 64, 62, 0.04), 0 10px 30px -18px rgba(16, 64, 62, 0.22);
+  --shadow-pop: 0 8px 40px -12px rgba(16, 64, 62, 0.28);
+  --shadow-nav: 0 -1px 24px -8px rgba(16, 64, 62, 0.14);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--color-line-strong); border-radius: 999px; }
+
+.pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem); }
+.pt-safe { padding-top: env(safe-area-inset-top); }
+
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@layer components {
+  /* ---- Surfaces ---------------------------------------------------------- */
+  .card, .stat {
+    @apply bg-surface rounded-2xl border border-line shadow-card;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-pop hover:border-line-strong active:scale-[0.995];
+  }
+  .stat { @apply p-4 flex flex-col gap-1; }
+
+  /* ---- Buttons ----------------------------------------------------------- */
+  .btn, .btn-primary, .btn-secondary, .btn-outline, .btn-ghost, .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-medium
+           px-4 h-11 text-sm select-none transition-all duration-150
+           disabled:opacity-50 disabled:pointer-events-none active:scale-[0.97]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/40;
+  }
+  .btn-primary { @apply bg-brand-800 text-white hover:bg-brand-700 shadow-sm; }
+  .btn-secondary { @apply bg-brand-50 text-brand-800 hover:bg-brand-100; }
+  .btn-outline { @apply bg-surface border border-line-strong text-body hover:bg-canvas; }
+  .btn-ghost { @apply text-muted hover:bg-brand-50 hover:text-brand-800; }
+  .btn-danger { @apply bg-danger text-white hover:brightness-95; }
+  .btn-sm { @apply h-9 px-3 text-[13px] rounded-lg; }
+  .btn-lg { @apply h-13 px-6 text-base rounded-2xl; }
+
+  .icon-btn {
+    @apply inline-flex items-center justify-center rounded-full h-10 w-10 transition-all
+           active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/40;
+  }
+
+  /* ---- Forms ------------------------------------------------------------- */
+  .label { @apply block text-[13px] font-medium text-muted mb-1.5; }
+  .input, .textarea, .select {
+    @apply w-full rounded-xl border border-line-strong bg-surface px-3.5 h-11 text-sm text-body
+           transition-all
+           focus:outline-none focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10;
+  }
+  .textarea { @apply h-auto py-2.5 leading-relaxed; }
+  .select { @apply pr-9 appearance-none; }
+  .field { @apply mb-4; }
+
+  /* ---- Badges / pills ---------------------------------------------------- */
+  .badge, .badge-teal, .badge-ok, .badge-warn, .badge-danger, .badge-info, .badge-slate {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .badge-teal { @apply bg-brand-50 text-brand-800; }
+  .badge-ok { @apply bg-ok-soft text-ok; }
+  .badge-warn { @apply bg-warn-soft text-warn; }
+  .badge-danger { @apply bg-danger-soft text-danger; }
+  .badge-info { @apply bg-info-soft text-info; }
+  .badge-slate { @apply bg-canvas text-muted border border-line; }
+
+  /* ---- Layout helpers ---------------------------------------------------- */
+  .page { @apply mx-auto w-full max-w-5xl px-4 sm:px-6; }
+  .section-title { @apply text-[15px] font-semibold text-ink; }
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-muted; }
+
+  /* ---- Stat tile --------------------------------------------------------- */
+  .stat-value { @apply text-2xl font-semibold text-ink tracking-tight; }
+  .stat-label { @apply text-[13px] text-muted; }
+
+  /* ---- List rows --------------------------------------------------------- */
+  .row { @apply flex items-center gap-3 px-4 py-3 transition-colors; }
+  .row-divide > * + * { @apply border-t border-line; }
+
+  /* ---- Avatar ------------------------------------------------------------ */
+  .avatar {
+    @apply inline-flex items-center justify-center rounded-full font-semibold
+           bg-brand-100 text-brand-800 shrink-0;
+  }
+}
+
+/* Form placeholder color (outside @apply to avoid utility resolution issues) */
+.input::placeholder, .textarea::placeholder { color: color-mix(in srgb, var(--color-muted) 60%, transparent); }
+
+/* Segmented control */
+.seg { @apply inline-flex p-1 rounded-xl bg-canvas border border-line gap-1; }
+.seg-item {
+  @apply px-3.5 h-9 inline-flex items-center justify-center rounded-lg text-[13px] font-medium
+         text-muted transition-all cursor-pointer whitespace-nowrap;
+}
+.seg-item[data-active="true"] { @apply bg-surface text-brand-800 shadow-sm; }
+
+/* Animations */
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.animate-rise { animation: rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.animate-sheet { animation: sheet-up 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.animate-fade { animation: fade 0.2s ease both; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
